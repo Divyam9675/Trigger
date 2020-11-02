@@ -1,0 +1,31 @@
+mysql> desc Student; 
++-------+-------------+------+-----+---------+----------------+ 
+| Field | Type        | Null | Key | Default | Extra          | 
++-------+-------------+------+-----+---------+----------------+ 
+| tid   | int(4)      | NO   | PRI | NULL    | auto_increment | 
+| name  | varchar(30) | YES  |     | NULL    |                | 
+| subj1 | int(2)      | YES  |     | NULL    |                | 
+| subj2 | int(2)      | YES  |     | NULL    |                | 
+| subj3 | int(2)      | YES  |     | NULL    |                | 
+| total | int(3)      | YES  |     | NULL    |                | 
+| per   | int(3)      | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+ 
+7 rows in set (0.00 sec)
+
+create trigger stud_marks 
+before INSERT 
+on 
+Student 
+for each row 
+set Student.total = Student.subj1 + Student.subj2 + Student.subj3, Student.per = Student.total * 60 / 100;
+
+mysql> insert into Student values(0, "ABCDE", 20, 20, 20, 0, 0); 
+Query OK, 1 row affected (0.09 sec) 
+
+mysql> select * from Student; 
++-----+-------+-------+-------+-------+-------+------+ 
+| tid | name  | subj1 | subj2 | subj3 | total | per  | 
++-----+-------+-------+-------+-------+-------+------+ 
+| 100 | ABCDE |    20 |    20 |    20 |    60 |   36 | 
++-----+-------+-------+-------+-------+-------+------+ 
+1 row in set (0.00 sec)
